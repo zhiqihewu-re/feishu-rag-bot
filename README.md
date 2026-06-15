@@ -26,7 +26,7 @@
 
 ### 2. 克隆项目
 ```bash
-git clone https://github.com/your-username/feishu-rag-bot.git
+git clone https://github.com/zhiqihewu-re/feishu-rag-bot.git
 cd feishu-rag-bot
 ```
 
