@@ -1,0 +1,30 @@
+services:
+  app:
+    build: .
+    container_name: feishu-app
+    volumes:
+      - .:/app
+      - ./data:/app/data
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - bot-network
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-tunnel
+    restart: always
+    environment:
+      - TUNNEL_TOKEN=eyJhIjoiYzdmZmNjZjk1MjUzZTJlNTNkZTQ5YzQ1ZjhjOGU4NmQiLCJ0IjoiM2MwODQ0YzMtMzEwNi00MWZmLTlmMmItZjA2ZGZjNzUyYzJhIiwicyI6IlpUSTNNV05rTWpjdE1EbGlOUzAwWkdGakxXRmhZMk10TkRWbE5XRmtOamN3T1dZeSJ9  # 这里填入你刚才复制的 Token
+    command: tunnel --no-autoupdate run
+    networks:
+      - bot-network
+    depends_on:
+      - app
+
+networks:
+  bot-network:
+    driver: bridge
